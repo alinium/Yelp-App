@@ -21,6 +21,7 @@ import li.muhammada.rbc.yelp.provider.YelpRetrofit;
 import li.muhammada.rbc.yelp.provider.model.Business;
 import li.muhammada.rbc.yelp.provider.model.ResponseWrapper;
 import li.muhammada.rbc.yelp.ui.BusinessListAdapter;
+import li.muhammada.rbc.yelp.ui.PicassoHelper;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        PicassoHelper.INSTANCE.init(this);
+
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);

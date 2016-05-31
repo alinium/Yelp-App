@@ -9,4 +9,5 @@
     <dimen name="md_padding_8">8dp</dimen>
     <dimen name="md_padding_4">4dp</dimen>
     <dimen name="md_padding_2">2dp</dimen>
+    <dimen name="cardview_image_height">200dp</dimen>
 </resources>
