@@ -1,15 +1,23 @@
 package li.muhammada.rbc.yelp;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import li.muhammada.rbc.yelp.provider.YelpRetrofit;
+import li.muhammada.rbc.yelp.provider.model.Business;
+import li.muhammada.rbc.yelp.provider.model.ResponseWrapper;
+
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +52,27 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            loadResults();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void loadResults() {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                ResponseWrapper response = YelpRetrofit.INSTANCE.search("Ethiopian", "Toronto");
+                if (response == null || response.getBusinesses() == null) {
+                    return null;
+                }
+
+                for (Business business : response.getBusinesses()) {
+                    Log.d(TAG, business.getName());
+                }
+                return null;
+            }
+        }.execute();
     }
 }
