@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Yelp RBC</string>
+    <string name="app_name">Yelp API</string>
     <string name="action_settings">Settings</string>
     <string name="loading">Loading...</string>
 </resources>
