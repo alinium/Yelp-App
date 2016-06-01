@@ -1,15 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="li.muhammada.rbc.yelp.ui.DetailActivity"
-    tools:showIn="@layout/activity_detail">
+    android:layout_height="wrap_content">
 
-</RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="li.muhammada.rbc.yelp.ui.DetailActivity"
+        tools:showIn="@layout/activity_detail">
+
+        <ImageView
+            android:layout_width="@dimen/cardview_image_height"
+            android:layout_height="@dimen/cardview_image_height"
+            android:id="@+id/hero_imageview"
+            android:scaleType="centerCrop"
+            android:padding="@dimen/md_padding_16"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rating_imageview"
+            android:layout_below="@+id/hero_imageview"
+            android:layout_alignParentLeft="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rating_count"
+            android:layout_marginLeft="@dimen/md_padding_8"
+            android:layout_below="@+id/hero_imageview"
+            android:layout_toRightOf="@+id/rating_imageview"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/reviews_heading"
+            android:text="@string/reviews"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/md_padding_16"
+            android:textSize="@dimen/heading_text_size"
+            android:layout_below="@+id/rating_imageview"
+            android:layout_alignParentLeft="true"/>
+
+        <ImageView
+            android:layout_width="@dimen/avatar_size"
+            android:layout_height="@dimen/avatar_size"
+            android:id="@+id/avatar"
+            android:layout_below="@+id/reviews_heading"
+            android:layout_alignParentLeft="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/snippet_text"
+            android:layout_below="@+id/reviews_heading"
+            android:layout_marginLeft="@dimen/md_padding_8"
+            android:layout_toRightOf="@id/avatar"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/location_heading"
+            android:layout_marginTop="@dimen/md_padding_16"
+            android:text="@string/location"
+            android:textSize="@dimen/heading_text_size"
+            android:textStyle="bold"
+            android:layout_below="@+id/avatar"
+            android:layout_alignParentLeft="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/address"
+            android:layout_below="@+id/location_heading"
+            android:layout_alignParentLeft="true"/>
+
+    </RelativeLayout>
+</ScrollView>

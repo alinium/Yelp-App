@@ -13,4 +13,7 @@
         <item>Highest Rated</item>
     </array>
     <string name="title_activity_detail">Details</string>
+    <string name="reviews">Reviews</string>
+    <string name="location">Location</string>
+    <string name="brackets">(%d)</string>
 </resources>
