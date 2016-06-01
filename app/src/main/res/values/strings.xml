@@ -12,4 +12,5 @@
         <item>Distance</item>
         <item>Highest Rated</item>
     </array>
+    <string name="title_activity_detail">Details</string>
 </resources>

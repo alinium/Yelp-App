@@ -1,5 +1,6 @@
 package li.muhammada.rbc.yelp.ui;
 
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -49,6 +50,12 @@ public class BusinessListAdapter extends RecyclerView.Adapter<BusinessListAdapte
 
         ImageView imageView = holder.mImageView;
         PicassoHelper.INSTANCE.picasso().load(business.getImageUrl()).into(imageView);
+
+        cardView.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), DetailActivity.class);
+            intent.putExtra(Intent.EXTRA_TEXT, business.getId());
+            v.getContext().startActivity(intent);
+        });
     }
 
     @Override
