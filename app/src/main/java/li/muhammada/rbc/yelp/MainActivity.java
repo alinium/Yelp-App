@@ -45,12 +45,17 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loadResults();
                 Snackbar.make(view, R.string.loading, Snackbar.LENGTH_SHORT).show();
             }
         });
 
         setupRecyclerView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadResults();
     }
 
     private void setupRecyclerView() {
