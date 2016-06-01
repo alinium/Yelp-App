@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -70,8 +72,14 @@ public class DetailActivity extends AppCompatActivity {
         PicassoHelper.INSTANCE.picasso().load(business.getImageUrl()).into(heroImageView);
         PicassoHelper.INSTANCE.picasso().load(business.getRatingImgUrlLarge()).into(ratingImageView);
         ratingCount.setText(String.format(Locale.getDefault(), getString(R.string.brackets), business.getReviewCount()));
-        PicassoHelper.INSTANCE.picasso().load(business.getSnippetImageUrl()).into(avatar);
-        snippetText.setText(business.getSnippetText());
+        if (!TextUtils.isEmpty(business.getSnippetImageUrl()) || !TextUtils.isEmpty(business.getSnippetText())) {
+            avatar.setVisibility(View.VISIBLE);
+            PicassoHelper.INSTANCE.picasso().load(business.getSnippetImageUrl()).into(avatar);
+            snippetText.setText(business.getSnippetText());
+        } else {
+            avatar.setVisibility(View.GONE);
+            snippetText.setText(R.string.none_available);
+        }
         setupAddress();
     }
 

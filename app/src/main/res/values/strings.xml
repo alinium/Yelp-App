@@ -16,4 +16,5 @@
     <string name="reviews">Reviews</string>
     <string name="location">Location</string>
     <string name="brackets">(%d)</string>
+    <string name="none_available">None available</string>
 </resources>
