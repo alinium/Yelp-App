@@ -53,7 +53,7 @@ public class BusinessListAdapter extends RecyclerView.Adapter<BusinessListAdapte
 
         cardView.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), DetailActivity.class);
-            intent.putExtra(Intent.EXTRA_TEXT, business.getId());
+            intent.putExtra(DetailActivity.INTENT_PARAM_BUSINESS, business);
             v.getContext().startActivity(intent);
         });
     }

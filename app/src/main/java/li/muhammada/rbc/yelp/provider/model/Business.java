@@ -1,14 +1,17 @@
 
 package li.muhammada.rbc.yelp.provider.model;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Generated;
+
 @Generated("org.jsonschema2pojo")
-public class Business {
+public class Business implements Serializable {
 
     @SerializedName("is_claimed")
     @Expose

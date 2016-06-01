@@ -2,18 +2,18 @@ package li.muhammada.rbc.yelp.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import li.muhammada.rbc.yelp.R;
+import li.muhammada.rbc.yelp.provider.model.Business;
 
 public class DetailActivity extends AppCompatActivity {
 
-    private String businessId;
+    public static final String INTENT_PARAM_BUSINESS = "Business";
+
+    private Business mBusiness;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +44,16 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void handleIntent(Intent intent) {
-        businessId = intent.getStringExtra(Intent.EXTRA_TEXT);
+        mBusiness = ((Business) intent.getSerializableExtra(INTENT_PARAM_BUSINESS));
         loadPage();
     }
 
     private void loadPage() {
-        // TODO
+        if (mBusiness == null) {
+            return;
+        }
+
+        getSupportActionBar().setTitle(mBusiness.getName());
     }
 
 }
