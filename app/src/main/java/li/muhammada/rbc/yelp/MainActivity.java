@@ -2,14 +2,14 @@ package li.muhammada.rbc.yelp;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -78,7 +78,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        final int displayWidth  = displayMetrics.widthPixels;
+        int cardViewMinWidth = getResources().getDimensionPixelSize(R.dimen.cardview_min_width);
+        int width = Math.max(1, displayWidth / cardViewMinWidth);
+
+        recyclerView.setLayoutManager(new GridLayoutManager(this, width));
         businessListAdapter = new BusinessListAdapter();
         recyclerView.setAdapter(businessListAdapter);
         recyclerView.setItemAnimator(new SlideInUpAnimator());
