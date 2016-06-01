@@ -59,9 +59,12 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(getString(R.string.sort_by));
         builder.setSingleChoiceItems(sortTypes, Preferences.INSTANCE.getSortType(),
-                (dialog, which) -> Preferences.INSTANCE.setSortType(which));
+                (dialog, which) -> {
+                    Preferences.INSTANCE.setSortType(which);
+                    loadResults();
+                    dialog.dismiss();
+                });
         builder.setPositiveButton(getString(R.string.ok), (dialog, id) -> {
-            loadResults();
             dialog.dismiss();
         });
 
@@ -104,23 +107,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadResults() {
-        new AsyncTask<Void, Void, Integer>() {
+        new AsyncTask<Void, Void, Void>() {
             @Override
-            protected Integer doInBackground(Void... params) {
+            protected Void doInBackground(Void... params) {
                 ResponseWrapper response = YelpRetrofit.INSTANCE.search("Ethiopian", "Toronto");
                 if (response == null || response.getBusinesses() == null) {
-                    return 0;
+                    return null;
                 }
 
                 businessListAdapter.setAdapterData(response.getBusinesses());
-                return response.getBusinesses().size();
+                return null;
             }
 
             @Override
-            protected void onPostExecute(@NonNull Integer size) {
-                if (size > 0) {
-                    businessListAdapter.notifyItemRangeInserted(0, size);
-                }
+            protected void onPostExecute(Void ignore) {
+                businessListAdapter.notifyDataSetChanged();
             }
         }.execute();
     }

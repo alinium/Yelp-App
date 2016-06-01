@@ -8,6 +8,6 @@ import retrofit2.http.Query;
 public interface YelpService {
 
     @GET("search/")
-    Call<ResponseWrapper> search(@Query("term") String searchTerm, @Query("location") String location);
+    Call<ResponseWrapper> search(@Query("term") String searchTerm, @Query("location") String location, @Query("sort") int sortType);
 
 }

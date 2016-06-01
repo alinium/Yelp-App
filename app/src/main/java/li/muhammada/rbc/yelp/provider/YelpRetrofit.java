@@ -6,11 +6,14 @@ import android.util.Log;
 import java.io.IOException;
 
 import li.muhammada.rbc.yelp.provider.model.ResponseWrapper;
+import li.muhammada.rbc.yelp.util.Preferences;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import se.akerfeldt.okhttp.signpost.OkHttpOAuthConsumer;
 import se.akerfeldt.okhttp.signpost.SigningInterceptor;
+
+import okhttp3.logging.HttpLoggingInterceptor;
 
 public class YelpRetrofit {
 
@@ -28,8 +31,12 @@ public class YelpRetrofit {
         OkHttpOAuthConsumer consumer = new OkHttpOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
         consumer.setTokenWithSecret(TOKEN, TOKEN_SECRET);
 
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
         OkHttpClient okClient = new OkHttpClient.Builder()
                 .addInterceptor(new SigningInterceptor(consumer))
+                .addInterceptor(loggingInterceptor)
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -43,7 +50,7 @@ public class YelpRetrofit {
     @Nullable
     public ResponseWrapper search(String searchTerm, String location) {
         try {
-            return mService.search(searchTerm, location).execute().body();
+            return mService.search(searchTerm, location, Preferences.INSTANCE.getSortType()).execute().body();
         } catch (IOException e) {
             Log.e(TAG, "Couldn't search Yelp", e);
         }
