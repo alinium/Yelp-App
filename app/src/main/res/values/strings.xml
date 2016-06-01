@@ -4,6 +4,8 @@
     <string name="loading">Loading...</string>
     <string name="sort_by">Sort by</string>
     <string name="ok">OK</string>
+    <string name="failed_msg">Failed to load results</string>
+    <string name="try_again">Try Again</string>
 
     <array name="sort_types">
         <item>Best Matched</item>

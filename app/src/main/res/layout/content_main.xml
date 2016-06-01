@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,4 +13,38 @@
         android:layout_height="match_parent"
         android:id="@+id/main_recyclerview"
         android:scrollbars="vertical"/>
-</RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/loading_layout"
+        android:background="#FFFFFF">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/loading_textview"
+            android:text="@string/loading"
+            android:padding="@dimen/md_padding_8"
+            android:layout_centerInParent="true"/>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/loading_spinner"
+            android:layout_above="@id/loading_textview"
+            android:layout_centerHorizontal="true"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/try_again_button"
+            android:visibility="gone"
+            android:layout_below="@id/loading_textview"
+            android:layout_centerHorizontal="true"
+            android:text="@string/try_again"/>
+
+    </RelativeLayout>
+</FrameLayout>

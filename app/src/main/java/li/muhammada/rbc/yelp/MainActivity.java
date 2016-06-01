@@ -2,8 +2,8 @@ package li.muhammada.rbc.yelp;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -13,11 +13,16 @@ import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 import li.muhammada.rbc.yelp.provider.YelpRetrofit;
+import li.muhammada.rbc.yelp.provider.model.Business;
 import li.muhammada.rbc.yelp.provider.model.ResponseWrapper;
 import li.muhammada.rbc.yelp.ui.BusinessListAdapter;
 import li.muhammada.rbc.yelp.ui.PicassoHelper;
@@ -30,6 +35,10 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.main_recyclerview) RecyclerView recyclerView;
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.fab) FloatingActionButton fab;
+    @BindView(R.id.loading_textview) TextView loadingTextView;
+    @BindView(R.id.try_again_button) View tryAgainButton;
+    @BindView(R.id.loading_layout) View loadingLayout;
+    @BindView(R.id.loading_spinner) View loadingSpinner;
     private BusinessListAdapter businessListAdapter;
 
     @Override
@@ -43,13 +52,7 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showSortDialog();
-                Snackbar.make(view, R.string.loading, Snackbar.LENGTH_SHORT).show();
-            }
-        });
+        fab.setOnClickListener(view -> showSortDialog());
 
         setupRecyclerView();
     }
@@ -89,6 +92,11 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new SlideInUpAnimator());
     }
 
+    @OnClick(R.id.try_again_button)
+    public void OnClickTryAgain() {
+        loadResults();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -112,21 +120,39 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadResults() {
-        new AsyncTask<Void, Void, Void>() {
+        new AsyncTask<Void, Void, Boolean>() {
             @Override
-            protected Void doInBackground(Void... params) {
-                ResponseWrapper response = YelpRetrofit.INSTANCE.search("Ethiopian", "Toronto");
-                if (response == null || response.getBusinesses() == null) {
-                    return null;
-                }
-
-                businessListAdapter.setAdapterData(response.getBusinesses());
-                return null;
+            protected void onPreExecute() {
+                fab.hide();
+                tryAgainButton.setVisibility(View.GONE);
+                loadingTextView.setText(R.string.loading);
+                loadingSpinner.setVisibility(View.VISIBLE);
+                loadingLayout.setVisibility(View.VISIBLE);
             }
 
             @Override
-            protected void onPostExecute(Void ignore) {
-                businessListAdapter.notifyDataSetChanged();
+            protected Boolean doInBackground(Void... params) {
+                ResponseWrapper response = YelpRetrofit.INSTANCE.search("Ethiopian", "Toronto");
+                if (response == null || response.getBusinesses() == null) {
+                    return false;
+                }
+
+                List<Business> businesses = response.getBusinesses();
+                businessListAdapter.setAdapterData(businesses);
+                return businesses.size() > 0;
+            }
+
+            @Override
+            protected void onPostExecute(@NonNull Boolean success) {
+                if (success) {
+                    loadingLayout.setVisibility(View.GONE);
+                    fab.show();
+                    businessListAdapter.notifyDataSetChanged();
+                } else {
+                    loadingSpinner.setVisibility(View.GONE);
+                    loadingTextView.setText(R.string.failed_msg);
+                    tryAgainButton.setVisibility(View.VISIBLE);
+                }
             }
         }.execute();
     }
