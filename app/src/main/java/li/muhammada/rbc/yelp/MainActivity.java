@@ -97,7 +97,9 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(@NonNull Integer size) {
-                businessListAdapter.notifyItemRangeInserted(0, size);
+                if (size > 0) {
+                    businessListAdapter.notifyItemRangeInserted(0, size);
+                }
             }
         }.execute();
     }
