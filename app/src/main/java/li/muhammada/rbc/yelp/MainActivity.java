@@ -5,23 +5,23 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 import li.muhammada.rbc.yelp.provider.YelpRetrofit;
-import li.muhammada.rbc.yelp.provider.model.Business;
 import li.muhammada.rbc.yelp.provider.model.ResponseWrapper;
 import li.muhammada.rbc.yelp.ui.BusinessListAdapter;
 import li.muhammada.rbc.yelp.ui.PicassoHelper;
+import li.muhammada.rbc.yelp.util.Preferences;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Preferences.INSTANCE.init(this);
         PicassoHelper.INSTANCE.init(this);
 
         setContentView(R.layout.activity_main);
@@ -45,11 +46,26 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                showSortDialog();
                 Snackbar.make(view, R.string.loading, Snackbar.LENGTH_SHORT).show();
             }
         });
 
         setupRecyclerView();
+    }
+
+    private void showSortDialog() {
+        String[] sortTypes = getResources().getStringArray(R.array.sort_types);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getString(R.string.sort_by));
+        builder.setSingleChoiceItems(sortTypes, Preferences.INSTANCE.getSortType(),
+                (dialog, which) -> Preferences.INSTANCE.setSortType(which));
+        builder.setPositiveButton(getString(R.string.ok), (dialog, id) -> {
+            loadResults();
+            dialog.dismiss();
+        });
+
+        builder.create().show();
     }
 
     @Override

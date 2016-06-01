@@ -2,4 +2,12 @@
     <string name="app_name">Yelp API</string>
     <string name="action_settings">Settings</string>
     <string name="loading">Loading...</string>
+    <string name="sort_by">Sort by</string>
+    <string name="ok">OK</string>
+
+    <array name="sort_types">
+        <item>Best Matched</item>
+        <item>Distance</item>
+        <item>Highest Rated</item>
+    </array>
 </resources>
